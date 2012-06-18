@@ -1,0 +1,23 @@
+AffinityAppBundle:
+    resource: "@AffinityAppBundle/Resources/config/routing.yml"
+    prefix:   /
+
+login:
+    pattern: /login
+    defaults: { _controller: AffinityAppBundle:Employee:loginForm }
+    requirements:
+        _method: GET
+        
+login_check:
+    pattern: /login_check
+    requirements:
+        _method: POST
+
+logout:
+    pattern: /logout
+    
+    
+# Internal routing configuration to handle ESI
+#_internal:
+#   resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
+#   prefix:   /_internal

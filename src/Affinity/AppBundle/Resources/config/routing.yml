@@ -1,0 +1,11 @@
+AffinityAppBundle_create:
+    pattern:  /create
+    defaults: { _controller: AffinityAppBundle:Default:create }
+    
+AffinityAppBundle_find:
+    pattern:  /find/{id}
+    defaults: { _controller: AffinityAppBundle:Default:find }
+
+AffinityAppBundle_homepage:
+    pattern:  /
+    defaults: { _controller: AffinityAppBundle:Default:index }
