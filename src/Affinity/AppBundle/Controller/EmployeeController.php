@@ -14,6 +14,8 @@ class EmployeeController extends Controller
         $request = $this->getRequest();
         $session = $request->getSession();
         
+        // Adding a comment for a commit!
+        
         $stuff = new \Affinity\AppBundle\DependencyInjection\AffinityAppExtension;
         
         if( $request->attributes->has( SecurityContext::AUTHENTICATION_ERROR )) {
