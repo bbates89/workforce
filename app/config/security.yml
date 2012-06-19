@@ -1,23 +1,15 @@
 security:
+    
     firewalls:
-        secured_area:
+        main:
             pattern: ^/
             anonymous: ~
-            logout:
-                path: /logout
-                target: /
-            form_login:
-                login_path: /login
-                check_path: /login_check
     
     access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: ROLE_USER }
-    
+      
     providers:
         in_memory:
-            users:
-                testuser: { password: abc123, roles: 'ROLE_USER' }
-    
+      
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
+      

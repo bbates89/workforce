@@ -1,0 +1,7 @@
+parameters:
+#    affinity_workforce_app.example.class: Affinity\Workforce\AppBundle\Example
+
+services:
+#    affinity_workforce_app.example:
+#        class: %affinity_workforce_app.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

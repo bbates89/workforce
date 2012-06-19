@@ -1,7 +1,0 @@
-parameters:
-#    affinity_app.example.class: Affinity\AppBundle\Example
-
-services:
-#    affinity_app.example:
-#        class: %affinity_app.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
