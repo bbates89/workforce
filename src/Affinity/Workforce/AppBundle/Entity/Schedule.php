@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  *
  * @ORM\Entity
- * @ORM\Table(name="schedule")
+ * @ORM\Table(name="schedules")
  */
 class Schedule
 {
@@ -49,7 +49,6 @@ class Schedule
     {
         $this->scheduleShifts = new ArrayCollection();
     }
-    
 
     /**
      * Get id

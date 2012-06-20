@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  *
  * @ORM\Entity
- * @ORM\Table(name="employee_shift")
+ * @ORM\Table(name="employee_shifts")
  */
 class EmployeeShift
 {
@@ -43,7 +43,7 @@ class EmployeeShift
      */
     protected $employee;
     
-    
+
 
     /**
      * Get id
@@ -98,9 +98,9 @@ class EmployeeShift
     /**
      * Set employee
      *
-     * @param Affinity\Workforce\AppBundle\Entity\employee $employee
+     * @param Affinity\Workforce\AppBundle\Entity\Employee $employee
      */
-    public function setEmployee(\Affinity\Workforce\AppBundle\Entity\employee $employee)
+    public function setEmployee(\Affinity\Workforce\AppBundle\Entity\Employee $employee)
     {
         $this->employee = $employee;
     }
@@ -108,7 +108,7 @@ class EmployeeShift
     /**
      * Get employee
      *
-     * @return Affinity\Workforce\AppBundle\Entity\employee 
+     * @return Affinity\Workforce\AppBundle\Entity\Employee 
      */
     public function getEmployee()
     {

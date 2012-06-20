@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  *
  * @ORM\Entity
- * @ORM\Table(name="schedule_shift")
+ * @ORM\Table(name="schedule_shifts")
  */
 class ScheduleShift
 {
@@ -48,10 +48,16 @@ class ScheduleShift
     /**
      *
      * @ORM\ManyToOne(targetEntity="Schedule", inversedBy="ScheduleShift")
-     * @ORM\JoinColumn(name="schduleId", referencedColumnName="id")
+     * @ORM\JoinColumn(name="scheduleId", referencedColumnName="id")
      */
     protected $schedule;
     
+    /**
+     * 
+     * @ORM\ManyToOne(targetEntity="Position", inversedBy="ScheduleShift")
+     * @ORM\JoinColumn(name="positionId", referencedColumnName="id")
+     */
+    protected $position;
 
     /**
      * Get id
@@ -161,5 +167,25 @@ class ScheduleShift
     public function getSchedule()
     {
         return $this->schedule;
+    }
+
+    /**
+     * Set position
+     *
+     * @param Affinity\Workforce\AppBundle\Entity\Position $position
+     */
+    public function setPosition(\Affinity\Workforce\AppBundle\Entity\Position $position)
+    {
+        $this->position = $position;
+    }
+
+    /**
+     * Get position
+     *
+     * @return Affinity\Workforce\AppBundle\Entity\Position 
+     */
+    public function getPosition()
+    {
+        return $this->position;
     }
 }

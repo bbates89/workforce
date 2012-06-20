@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  *
  * @ORM\Entity
- * @ORM\Table(name="employee")
+ * @ORM\Table(name="employees")
  */
 class Employee
 {    
@@ -46,15 +46,45 @@ class Employee
     
     /**
      *
+     * @ORM\Column(type="integer", length=11) 
+     */
+    protected $groupId;
+    
+    /**
+     *
      * @ORM\Column(type="boolean")
      */
     protected $isActive;
+    
     
     /**
      *
      * @ORM\OneToMany(targetEntity="EmployeeShift", mappedBy="Employee")
      */
     protected $employeeShifts;    
+
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Group", inversedBy="Employee")
+     * @ORM\JoinColumn(name="groupId", referencedColumnName="id") 
+     */
+    protected $group;
+    
+    /**
+     *
+     * @ORM\ManyToMany(targetEntity="Position", inversedBy="Employee")
+     * @ORM\JoinTable(name="positions_employees")
+     */
+    protected $positions;
+    
+    /*
+     * Class Constructor
+     */
+    public function __construct()
+    {
+        $this->employeeShifts   = new ArrayCollection();
+        $this->positions        = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -147,6 +177,26 @@ class Employee
     }
 
     /**
+     * Set groupId
+     *
+     * @param integer $groupId
+     */
+    public function setGroupId($groupId)
+    {
+        $this->groupId = $groupId;
+    }
+
+    /**
+     * Get groupId
+     *
+     * @return integer 
+     */
+    public function getGroupId()
+    {
+        return $this->groupId;
+    }
+
+    /**
      * Set isActive
      *
      * @param boolean $isActive
@@ -165,20 +215,17 @@ class Employee
     {
         return $this->isActive;
     }
-    
-    
-    /*
-     * Employee Relationships
+
+    /**
+     * Add employeeShifts
+     *
+     * @param Affinity\Workforce\AppBundle\Entity\EmployeeShift $employeeShifts
      */
-    
-    /*
-     * Class Constructor
-     */
-    public function __construct()
+    public function addEmployeeShift(\Affinity\Workforce\AppBundle\Entity\EmployeeShift $employeeShifts)
     {
-        $this->employeeShifts = new ArrayCollection();
+        $this->employeeShifts[] = $employeeShifts;
     }
-    
+
     /**
      * Get employeeShifts
      *
@@ -190,12 +237,42 @@ class Employee
     }
 
     /**
-     * Add employeeShifts
+     * Set group
      *
-     * @param Affinity\Workforce\AppBundle\Entity\EmployeeShift $employeeShifts
+     * @param Affinity\Workforce\AppBundle\Entity\Group $group
      */
-    public function addEmployeeShift(\Affinity\Workforce\AppBundle\Entity\EmployeeShift $employeeShifts)
+    public function setGroup(\Affinity\Workforce\AppBundle\Entity\Group $group)
     {
-        $this->employeeShifts[] = $employeeShifts;
+        $this->group = $group;
+    }
+
+    /**
+     * Get group
+     *
+     * @return Affinity\Workforce\AppBundle\Entity\Group 
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
+
+    /**
+     * Add positions
+     *
+     * @param Affinity\Workforce\AppBundle\Entity\Position $positions
+     */
+    public function addPosition(\Affinity\Workforce\AppBundle\Entity\Position $positions)
+    {
+        $this->positions[] = $positions;
+    }
+
+    /**
+     * Get positions
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getPositions()
+    {
+        return $this->positions;
     }
 }
