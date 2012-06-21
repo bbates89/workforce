@@ -2,6 +2,8 @@
 
 namespace Affinity\Workforce\AppBundle\Entity;
 
+use Symfony\Component\Security\Core\User\UserInterface;
+
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -10,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity
  * @ORM\Table(name="employees")
  */
-class Employee
+class Employee implements UserInterface
 {    
     /**
      *
@@ -275,4 +277,32 @@ class Employee
     {
         return $this->positions;
     }
+
+    /**
+     * Test user equality.
+     * 
+     * @param UserInterface $user 
+     * @return \Boolean
+     */
+    public function equals(UserInterface $user) {
+        if( $this === $user )
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Erase the users cred 
+     */
+    public function eraseCredentials() {
+        
+    }
+
+    public function getRoles() {
+        return array();
+    }
+    
+    
 }

@@ -24,15 +24,22 @@ class LoadEmployeeData extends AbstractFixture implements OrderedFixtureInterfac
     
     public function load( ObjectManager $manager )
     {
-        /* Create an employee object. */
+        // Create the employee objects.
         $employeeManager    = new Employee();
+        $employeeShift      = new Employee();
         $employeeService    = new Employee();
         $employeeDriver     = new Employee();
+        
+        // Get the password encoder using the encoder factory service.
+        $factory = $this->diContainer->get("security.encoder_factory");
+        $encoder = $factory->getEncoder($employeeManager);
+        
+        
         
         // Fill manager employee information.
         $employeeManager->setUsername("test.manager");
         $employeeManager->setSalt( md5(time()) );
-        $employeeManager->setPassword("test123");
+        $employeeManager->setPassword( $encoder->encodePassword("test123", $employeeManager->getSalt()) );
         $employeeManager->setIsActive(true);
         $employeeManager->setEmail("test.manager@example.com");
         $employeeManager->setGroup( $manager->merge( $this->getReference("manager-group") ) );
@@ -41,10 +48,22 @@ class LoadEmployeeData extends AbstractFixture implements OrderedFixtureInterfac
         /* Persist data to the database */
         $manager->persist( $employeeManager );
         
+        // Fill manager employee information.
+        $employeeShift->setUsername("test.shift");
+        $employeeShift->setSalt( md5(time()) );
+        $employeeShift->setPassword( $encoder->encodePassword("test123", $employeeShift->getSalt()) );
+        $employeeShift->setIsActive(true);
+        $employeeShift->setEmail("test.manager@example.com");
+        $employeeShift->setGroup( $manager->merge( $this->getReference("shift-group") ) );
+        $employeeShift->addPosition( $this->getReference("shift-leader-position" ) );
+        
+        /* Persist data to the database */
+        $manager->persist( $employeeShift );
+        
         // Fill normal employee information.
         $employeeService->setUsername("test.service");
         $employeeService->setSalt( md5(time()) );
-        $employeeService->setPassword("test123");
+        $employeeService->setPassword( $encoder->encodePassword("test123", $employeeService->getSalt()) );
         $employeeService->setIsActive(true);
         $employeeService->setEmail("test.normal@example.com");
         $employeeService->setGroup( $manager->merge( $this->getReference("employee-group") ) );
@@ -57,7 +76,7 @@ class LoadEmployeeData extends AbstractFixture implements OrderedFixtureInterfac
         // Fill normal employee information.
         $employeeDriver->setUsername("test.driver");
         $employeeDriver->setSalt( md5(time()) );
-        $employeeDriver->setPassword("test123");
+        $employeeDriver->setPassword( $encoder->encodePassword("test123", $employeeDriver->getSalt()) );
         $employeeDriver->setIsActive(true);
         $employeeDriver->setEmail("test.normal@example.com");
         $employeeDriver->setGroup( $manager->merge( $this->getReference("employee-group") ) );

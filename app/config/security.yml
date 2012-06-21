@@ -1,15 +1,30 @@
 security:
     
     firewalls:
-        main:
-            pattern: ^/
+        login:
+            pattern:  ^/account/login$
             anonymous: ~
+        
+        register:
+            pattern:  ^/account/register
+            anonymous: ~
+            
+        application:
+            pattern: ^/
+            logout:
+                path: /account/logout
+                target: /account/login
+            form_login:
+                login_path:  /account/login
+                check_path:  /account/login_check
     
     access_control:
       
     providers:
-        in_memory:
+        main:
+            entity: { class: Affinity\Workforce\AppBundle\Entity\Employee, property: username }
       
     encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
+        Affinity\Workforce\AppBundle\Entity\Employee: sha512
+            
       

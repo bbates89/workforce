@@ -20,21 +20,30 @@ class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load( ObjectManager $manager )
     {
-        $groupManager    = new Group();
-        $groupEmployee   = new Group();
+        $managerGroup       = new Group();
+        $shiftGroup         = new Group();
+        $employeeGroup      = new Group();
         
-        $groupManager->setGroupName("Management");
-        $groupManager->setGroupDescription("Management.  Run shifts and create schedules.");
-        $manager->persist($groupManager);
+        $managerGroup->setGroupName("Management");
+        $managerGroup->setGroupDescription("Management.  Run shifts and create schedules.");
+        $managerGroup->setType(Group::TYPE_MANAGER);
+        $manager->persist($managerGroup);
         
-        $groupEmployee->setGroupName("Employees");
-        $groupEmployee->setGroupDescription("General employees.");
-        $manager->persist($groupEmployee);
+        $shiftGroup->setGroupName("Shift Leaders");
+        $shiftGroup->setGroupDescription("Shift leaders.  In charge of shifts.");
+        $shiftGroup->setType(Group::TYPE_SUPERVISOR);
+        $manager->persist($shiftGroup);
+        
+        $employeeGroup->setGroupName("Employees");
+        $employeeGroup->setGroupDescription("General employees.");
+        $employeeGroup->setType(Group::TYPE_EMPLOYEE);
+        $manager->persist($employeeGroup);
         
         $manager->flush();
         
-        $this->setReference("manager-group", $groupManager);
-        $this->setReference("employee-group", $groupEmployee);
+        $this->setReference("manager-group", $managerGroup);
+        $this->setReference("shift-group", $shiftGroup);
+        $this->setReference("employee-group", $employeeGroup);
     }
     
     /**

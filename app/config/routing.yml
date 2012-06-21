@@ -1,3 +1,13 @@
+login:
+  pattern:  /account/login
+  defaults: { _controller: AffinityWorkforceAppBundle:Account:login }
+  
+login_check:
+  pattern:  /account/login_check
+  
+logout:
+  pattern:  /account/logout
+
 AffinityWorkforceAppBundle:
     resource: "@AffinityWorkforceAppBundle/Resources/config/routing.yml"
     prefix:   /

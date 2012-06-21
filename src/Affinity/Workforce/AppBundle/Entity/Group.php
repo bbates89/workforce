@@ -12,6 +12,10 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Group
 {    
+    const TYPE_MANAGER      = 'manager';
+    const TYPE_SUPERVISOR   = 'supervisor';
+    const TYPE_EMPLOYEE     = 'employee';
+    
     /**
      *
      * @ORM\Id
@@ -32,6 +36,11 @@ class Group
      */
     protected $groupDescription;
     
+    /**
+     *
+     * @ORM\Column(type="string", length=10, columnDefinition="ENUM('manager','supervisor','employee')")
+     */
+    protected $type;
     
     /**
      *
@@ -113,5 +122,34 @@ class Group
     public function getEmployees()
     {
         return $this->employees;
+    }
+
+    /**
+     * Set type
+     *
+     * @param integer $type
+     */
+    public function setType($type)
+    {
+        if( !in_array($type, array( 
+            self::TYPE_EMPLOYEE,
+            self::TYPE_MANAGER,
+            self::TYPE_SUPERVISOR
+        )))
+        {
+            throw new \InvalidArgumentException("Invalid type code on Group->setType");
+        }
+        
+        $this->type = $type;
+    }
+
+    /**
+     * Get type
+     *
+     * @return integer 
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

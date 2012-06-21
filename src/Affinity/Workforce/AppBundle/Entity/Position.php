@@ -37,7 +37,7 @@ class Position
      *
      * @ORM\Column(type="boolean")
      */
-    protected $requiresQualification;
+    protected $isInCharge;
     
     /**
      *
@@ -51,12 +51,24 @@ class Position
      */
     protected $employees;    
     
+    /**
+     *
+     * @ORM\ManyToMany(targetEntity="Position")
+     * @ORM\JoinTable(name="positions_tree",
+     *      joinColumns={@ORM\JoinColumn(name="parent_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="child_id", referencedColumnName="id")}
+     *      )
+     */
+    protected $childPositions;
+    
     function __construct()
     {
         $this->scheduleShifts   = new ArrayCollection();
         $this->employees        = new ArrayCollection();
         $this->ranks            = new ArrayCollection();
+        $this->childPositions   = new ArrayCollection();
     }
+
 
     /**
      * Get id
@@ -109,23 +121,23 @@ class Position
     }
 
     /**
-     * Set requiresQualification
+     * Set isInCharge
      *
-     * @param boolean $requiresQualification
+     * @param boolean $isInCharge
      */
-    public function setRequiresQualification($requiresQualification)
+    public function setIsInCharge($isInCharge)
     {
-        $this->requiresQualification = $requiresQualification;
+        $this->isInCharge = $isInCharge;
     }
 
     /**
-     * Get requiresQualification
+     * Get isInCharge
      *
      * @return boolean 
      */
-    public function getRequiresQualification()
+    public function getIsInCharge()
     {
-        return $this->requiresQualification;
+        return $this->isInCharge;
     }
 
     /**
@@ -166,5 +178,25 @@ class Position
     public function getEmployees()
     {
         return $this->employees;
+    }
+
+    /**
+     * Add childPositions
+     *
+     * @param Affinity\Workforce\AppBundle\Entity\Position $childPositions
+     */
+    public function addPosition(\Affinity\Workforce\AppBundle\Entity\Position $childPositions)
+    {
+        $this->childPositions[] = $childPositions;
+    }
+
+    /**
+     * Get childPositions
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getChildPositions()
+    {
+        return $this->childPositions;
     }
 }

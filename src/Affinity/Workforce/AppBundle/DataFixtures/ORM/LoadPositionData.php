@@ -14,29 +14,52 @@ class LoadPositionData extends AbstractFixture implements OrderedFixtureInterfac
     
     public function load( ObjectManager $manager )
     {
-        $supportPosition = new Position();
-        $supportPosition->setName("Shift Leader");
-        $supportPosition->setDescription("Support team for helping clients with problems.");
-        $supportPosition->setRequiresQualification(false);
-        $manager->persist($supportPosition);
+        $deliveryPosition = new Position();
+        $deliveryPosition->setName("Delivery Driver");
+        $deliveryPosition->setDescription("Senior support for elevated issues.");
+        $deliveryPosition->setIsInCharge(false);
+        $manager->persist($deliveryPosition);
+        $this->setReference("driver-position", $deliveryPosition);
         
-        $seniorSupportPosition = new Position();
-        $seniorSupportPosition->setName("Delivery Driver");
-        $seniorSupportPosition->setDescription("Senior support for elevated issues.");
-        $seniorSupportPosition->setRequiresQualification(true);
-        $manager->persist($seniorSupportPosition);
+        $frontPosition = new Position();
+        $frontPosition->setName("Front Service");
+        $frontPosition->setDescription("Take customers orders, and maintain restaraunt santitation.");
+        $frontPosition->setIsInCharge(false);
+        $manager->persist($frontPosition);
+        $this->setReference("service-position", $frontPosition);
         
-        $shiftManagerPosition = new Position();
-        $shiftManagerPosition->setName("Front Service");
-        $shiftManagerPosition->setDescription("Oversee shifts and deal with problems which may arise.");
-        $shiftManagerPosition->setRequiresQualification(true);
-        $manager->persist($shiftManagerPosition);
+        $grillPosition = new Position();
+        $grillPosition->setName("Grill Cook");
+        $grillPosition->setDescription("Cook food for hungry guests.");
+        $grillPosition->setIsInCharge(false);
+        $manager->persist($grillPosition);
+        $this->setReference("grill-position", $grillPosition);
         
         $manager->flush();
         
-        $this->setReference("manager-position", $supportPosition);
-        $this->setReference("driver-position", $seniorSupportPosition);
-        $this->setReference("service-position", $shiftManagerPosition);
+        $shiftPosition = new Position();
+        $shiftPosition->setName("Shift Leader");
+        $shiftPosition->setDescription("Support team for helping clients with problems.");
+        $shiftPosition->setIsInCharge(true);        
+        $shiftPosition->addPosition( $frontPosition );
+        $shiftPosition->addPosition( $grillPosition );
+        $manager->persist($shiftPosition);
+        $this->setReference("shift-leader-position", $shiftPosition);
+        
+        
+        $managerPosition = new Position();
+        $managerPosition->setName("Shift Leader");
+        $managerPosition->setDescription("Support team for helping clients with problems.");
+        $managerPosition->setIsInCharge(true);        
+        $managerPosition->addPosition( $frontPosition );
+        $managerPosition->addPosition( $grillPosition );
+        $managerPosition->addPosition( $shiftPosition );
+        $managerPosition->addPosition( $deliveryPosition );
+        $manager->persist($managerPosition);
+        $this->setReference("manager-position", $managerPosition);
+        
+        $manager->flush();
+        
     }
     
     public function getOrder()

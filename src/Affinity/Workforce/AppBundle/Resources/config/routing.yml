@@ -1,3 +1,7 @@
 AffinityWorkforceAppBundle_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: AffinityWorkforceAppBundle:Default:index }
+
+AffinityWorkforceAppBundle_dashboard:
+    pattern: /dashboard
+    defaults: { _controller: AffinityWorkforceAppBundle:Dashboard:index }
