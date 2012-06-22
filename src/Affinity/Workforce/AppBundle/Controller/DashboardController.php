@@ -33,17 +33,45 @@ class DashboardController extends Controller
         switch($employeeGroup->getType())
         {
             case Group::TYPE_MANAGER:
-                $this->redirect($this->generateUrl('AffinityWorkforce_dashboard_manager'));
+                return $this->redirect($this->generateUrl('AffinityWorkforce_dashboard_manager'));
                 break;
             case Group::TYPE_SUPERVISOR:
-                $this->redirect($this->generateUrl('AffinityWorkforce_dashboard_supervisor'));
+                return$this->redirect($this->generateUrl('AffinityWorkforce_dashboard_supervisor'));
                 break;
             case Group::TYPE_EMPLOYEE:
-                $this->redirect($this->generateUrl('AffinityWorkforce_dashboard_employee'));
+                return $this->redirect($this->generateUrl('AffinityWorkforce_dashboard_employee'));
                 break;
             default:
                 throw new \RuntimeException("Employee group type not valid.");
                 break;
         }
+    }
+    
+    
+    
+    /**
+     * The employee dashboard action will display the
+     * employee dashboard.  
+     */
+    function managerDashboardAction()
+    {
+        // Check for the manager role permissions.
+        if( false === $this->get('security.context')->isGranted('ROLE_MANAGER') )
+        {
+            throw new \Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException("Manager Dashboard");
+        }
+        
+        // Get the employee entity, along with the data.
+        $employee = $this->get('security.context')->getToken()->getUser();
+        
+        // Get the account service
+        $account_service = $this->get('affinity.workforce.account_service');
+        
+        $name = $account_service->getEmployeeShortName($employee);
+       
+        return $this->render( 'AffinityWorkforceAppBundle:Dashboard:manager.html.twig', 
+                array( 
+                    'name' => $name 
+                ));
     }
 }

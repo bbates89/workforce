@@ -7,6 +7,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Affinity\Workforce\AppBundle\Entity\Group;
+
 /**
  *
  * @ORM\Entity
@@ -78,6 +80,19 @@ class Employee implements UserInterface
      * @ORM\JoinTable(name="positions_employees")
      */
     protected $positions;
+    
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="Notification", mappedBy="Employee") 
+     */
+    protected $notifications;
+    
+    /**
+     *
+     * @ORM\OnetoOne(targetEntity="EmployeeData")
+     * @ORM\JoinColumn(name="employeeId", referencedColumnName="id")
+     */
+    protected $employeeData;
     
     /*
      * Class Constructor
@@ -294,15 +309,76 @@ class Employee implements UserInterface
     }
 
     /**
-     * Erase the users cred 
+     * Erase the users private credentials.
+     * 
+     * @return type 
      */
     public function eraseCredentials() {
-        
+        unset( $this->password );
+        unset( $this->salt );
     }
 
+    /**
+     * Returns the users roles, given their group.
+     * 
+     * @return type 
+     */
     public function getRoles() {
-        return array();
+        
+        switch( $this->getGroup()->getType() )
+        {
+            case Group::TYPE_MANAGER:
+                return array('ROLE_MANAGER');
+                break;
+            case Group::TYPE_SUPERVISOR:
+                return array('ROLE_SUPERVISOR');
+                break;
+            case Group::TYPE_EMPLOYEE:
+                return array('ROLE_EMPLOYEE');
+                break;
+            default:
+                throw new \ErrorException("Invalid group type.");
+                break;
+        }
     }
-    
-    
+
+    /**
+     * Add notifications
+     *
+     * @param Affinity\Workforce\AppBundle\Entity\Notification $notifications
+     */
+    public function addNotification(\Affinity\Workforce\AppBundle\Entity\Notification $notifications)
+    {
+        $this->notifications[] = $notifications;
+    }
+
+    /**
+     * Get notifications
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getNotifications()
+    {
+        return $this->notifications;
+    }
+
+    /**
+     * Set employeeData
+     *
+     * @param Affinity\Workforce\AppBundle\Entity\EmployeeData $employeeData
+     */
+    public function setEmployeeData(\Affinity\Workforce\AppBundle\Entity\EmployeeData $employeeData)
+    {
+        $this->employeeData = $employeeData;
+    }
+
+    /**
+     * Get employeeData
+     *
+     * @return Affinity\Workforce\AppBundle\Entity\EmployeeData 
+     */
+    public function getEmployeeData()
+    {
+        return $this->employeeData;
+    }
 }

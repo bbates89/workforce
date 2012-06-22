@@ -5,3 +5,7 @@ AffinityWorkforceAppBundle_homepage:
 AffinityWorkforceAppBundle_dashboard:
     pattern: /dashboard
     defaults: { _controller: AffinityWorkforceAppBundle:Dashboard:index }
+    
+AffinityWorkforce_dashboard_manager:
+    pattern: /dashboard/manager
+    defaults: { _controller: AffinityWorkforceAppBundle:Dashboard:managerDashboard }

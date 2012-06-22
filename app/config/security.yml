@@ -18,6 +18,11 @@ security:
                 login_path:  /account/login
                 check_path:  /account/login_check
     
+    role_hierarchy:
+        ROLE_MANAGER: [ROLE_SUPERVISOR, ROLE_EMPLOYEE]
+        ROLE_SUPERVISOR:  ROLE_EMPLOYEE
+        
+    
     access_control:
       
     providers:

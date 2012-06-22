@@ -18,6 +18,6 @@ class LoadSettingData extends AbstractFixture implements OrderedFixtureInterface
     
     function getOrder()
     {
-        return 4;
+        return 15;
     }
 }

@@ -1,7 +1,6 @@
 parameters:
-#    affinity_workforce_app.example.class: Affinity\Workforce\AppBundle\Example
+    affinity.workforce.account_service.class: Affinity\Workforce\AppBundle\Services\AccountService
 
 services:
-#    affinity_workforce_app.example:
-#        class: %affinity_workforce_app.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    affinity.workforce.account_service:
+        class: %affinity.workforce.account_service.class%
